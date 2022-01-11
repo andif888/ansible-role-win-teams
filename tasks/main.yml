@@ -1,0 +1,29 @@
+---
+# tasks file for ansible-role-win-teams
+- name: Set registy key for WVD environment
+  ansible.windows.win_regedit:
+    path: HKLM:\SOFTWARE\Microsoft\Teams
+    name: IsWVDEnvironment
+    data: 1
+    type: dword
+  when: teams_is_wvd_environment
+
+- name: Install vc_redist
+  win_package:
+    path: '{{ teams_vc_redist_download_url }}'
+    product_id: '{{ teams_vc_redist_product_id }}'
+    state: present
+    arguments: '/passive /norestart'
+  when: teams_is_wvd_environment
+
+- name: Install WebRTC
+  win_package:
+    path: '{{ teams_web_rtc_download_url }}'
+    state: present
+  when: teams_is_wvd_environment
+
+- name: Install Teams
+  win_package:
+    path: '{{ teams_download_url }}'
+    state: present
+    arguments: '{{ teams_installer_arguments }}'
