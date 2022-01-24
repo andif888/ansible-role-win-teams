@@ -45,3 +45,21 @@
     state: present
     arguments: '{{ (teams_installer_arguments_autostart + " " + teams_installer_arguments) | trim }}'
   when: teams_is_32bit
+
+- name: Remove HKLM Autorun x64
+  win_regedit:
+    path: "HKLM:\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run"
+    name: "Teams"
+    state: absent
+  when:
+    - teams_remove_hklm_autorun
+    - teams_is_32bit == false
+
+- name: Remove HKLM Autorun x86
+  win_regedit:
+    path: "HKLM:\\SOFTWARE\\WOW6432Node\\Microsoft\\Windows\\CurrentVersion\\Run"
+    name: "Teams"
+    state: absent
+  when:
+    - teams_remove_hklm_autorun
+    - teams_is_32bit

@@ -19,6 +19,7 @@ teams_is_wvd_environment: false
 teams_per_machine_install: false
 teams_no_autostart: false
 teams_is_32bit: false
+teams_remove_hklm_autorun: false
 teams_installer_arguments: "{{ teams_per_machine_install | bool | ternary('ALLUSER=1 ALLUSERS=1', 'ALLUSERS=1') }}"
 teams_installer_arguments_autostart: "{{ teams_no_autostart | bool | ternary('OPTIONS=\"noAutoStart=true\"','') }}"
 
@@ -34,6 +35,7 @@ Example Playbook
     teams_is_wvd_environment: true
     teams_per_machine_install: true
     teams_no_autostart: true
+    teams_remove_hklm_autorun: true
 
   roles:
     - ansible-role-win-teams
