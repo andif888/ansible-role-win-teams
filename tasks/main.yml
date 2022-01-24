@@ -51,9 +51,7 @@
     path: "HKLM:\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run"
     name: "Teams"
     state: absent
-  when:
-    - teams_remove_hklm_autorun
-    - teams_is_32bit == false
+  when: teams_remove_hklm_autorun
 
 - name: Remove HKLM Autorun x86
   win_regedit:
