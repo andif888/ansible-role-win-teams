@@ -17,20 +17,24 @@ teams_x64_download_url: 'https://teams.microsoft.com/downloads/desktopurl?env=pr
 teams_x86_download_url: 'https://teams.microsoft.com/downloads/desktopurl?env=production&plat=windows&managedInstaller=true&download=true'
 teams_is_wvd_environment: false
 teams_per_machine_install: false
+teams_no_autostart: false
 teams_is_32bit: false
 teams_installer_arguments: "{{ teams_per_machine_install | bool | ternary('ALLUSER=1 ALLUSERS=1', 'ALLUSERS=1') }}"
+teams_installer_arguments_autostart: "{{ teams_no_autostart | bool | ternary('OPTIONS=\"noAutoStart=true\"','') }}"
+
 ```
 
 Example Playbook
 ----------------
----
+```yaml
 - hosts: win10
   become: true
   gather_facts: true
   vars:
     teams_is_wvd_environment: true
     teams_per_machine_install: true
+    teams_no_autostart: true
 
   roles:
     - ansible-role-win-teams
-```yaml
+```

@@ -36,12 +36,12 @@
   win_package:
     path: '{{ teams_x64_download_url }}'
     state: present
-    arguments: '{{ teams_installer_arguments }}'
+    arguments: '{{ (teams_installer_arguments_autostart + " " + teams_installer_arguments) | trim }}'
   when: teams_is_32bit == false
 
 - name: Install Teams x86
   win_package:
     path: '{{ teams_x86_download_url }}'
     state: present
-    arguments: '{{ teams_installer_arguments }}'
+    arguments: '{{ (teams_installer_arguments_autostart + " " + teams_installer_arguments) | trim }}'
   when: teams_is_32bit
