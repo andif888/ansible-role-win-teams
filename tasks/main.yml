@@ -60,4 +60,3 @@
     state: absent
   when:
     - teams_remove_hklm_autorun
-    - teams_is_32bit
