@@ -22,7 +22,7 @@ teams_is_32bit: false
 teams_remove_hklm_autorun: false
 teams_installer_arguments: "{{ teams_per_machine_install | bool | ternary('ALLUSER=1 ALLUSERS=1', 'ALLUSERS=1') }}"
 teams_installer_arguments_autostart: "{{ teams_no_autostart | bool | ternary('OPTIONS=\"noAutoStart=true\"','') }}"
-
+teams_register_addinloader: false
 ```
 
 Example Playbook
@@ -36,6 +36,7 @@ Example Playbook
     teams_per_machine_install: true
     teams_no_autostart: true
     teams_remove_hklm_autorun: true
+    teams_register_addinloader: true
 
   roles:
     - ansible-role-win-teams

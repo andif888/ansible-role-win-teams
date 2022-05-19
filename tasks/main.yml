@@ -60,3 +60,9 @@
     state: absent
   when:
     - teams_remove_hklm_autorun
+
+- name: Register Microsoft.Teams.AddinLoader
+  import_tasks: register-addinloader.yml
+  when:
+    - teams_per_machine_install
+    - teams_register_addinloader

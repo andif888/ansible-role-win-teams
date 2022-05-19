@@ -1,0 +1,62 @@
+---
+- name: Microsoft.Teams.AddinLoader - find
+  ansible.windows.win_find:
+    paths:
+      - '{{ ansible_env["ProgramFiles(x86)"] }}\Microsoft\TeamsMeetingAddin'
+    file_type: directory
+  register: results_find_teams_meeting_addin
+
+- name: Microsoft.Teams.AddinLoader - x64 dll exists
+  win_stat:
+    path: '{{ results_find_teams_meeting_addin.files | map(attribute="path") | last }}\x64\Microsoft.Teams.AddinLoader.dll'
+  register: result_x64_dll_exists
+  when:
+    - results_find_teams_meeting_addin is defined
+    - results_find_teams_meeting_addin | length > 0
+
+- name: Microsoft.Teams.AddinLoader - x64 dll register
+  ansible.windows.win_shell: |
+    regsvr32 /s "{{ results_find_teams_meeting_addin.files | map(attribute="path") | last }}\x64\Microsoft.Teams.AddinLoader.dll"
+  args:
+    executable: cmd
+  when:
+    - results_find_teams_meeting_addin is defined
+    - results_find_teams_meeting_addin | length > 0
+    - result_x64_dll_exists.stat.exists == True
+  register: result_x64_dll_register
+
+- name: Microsoft.Teams.AddinLoader - x64 dll result
+  debug:
+    var: result_x64_dll_register
+  when:
+    - results_find_teams_meeting_addin is defined
+    - results_find_teams_meeting_addin | length > 0
+    - result_x64_dll_exists.stat.exists == True
+
+
+- name: Microsoft.Teams.AddinLoader - x86 dll exists
+  win_stat:
+    path: '{{ results_find_teams_meeting_addin.files | map(attribute="path") | last }}\x86\Microsoft.Teams.AddinLoader.dll'
+  register: result_x86_dll_exists
+  when:
+    - results_find_teams_meeting_addin is defined
+    - results_find_teams_meeting_addin | length > 0
+
+- name: Microsoft.Teams.AddinLoader - x86 dll register
+  ansible.windows.win_shell: |
+    regsvr32 /s "{{ results_find_teams_meeting_addin.files | map(attribute="path") | last }}\x86\Microsoft.Teams.AddinLoader.dll"
+  args:
+    executable: cmd
+  when:
+    - results_find_teams_meeting_addin is defined
+    - results_find_teams_meeting_addin | length > 0
+    - result_x86_dll_exists.stat.exists == True
+  register: result_x86_dll_register
+
+- name: Microsoft.Teams.AddinLoader - x86 dll result
+  debug:
+    var: result_x86_dll_register
+  when:
+    - results_find_teams_meeting_addin is defined
+    - results_find_teams_meeting_addin | length > 0
+    - result_x86_dll_exists.stat.exists == True
