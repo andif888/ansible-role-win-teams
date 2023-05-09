@@ -1,15 +1,43 @@
 ---
 # defaults file for ansible-role-win-teams
+# @var teams_vc_redist_download_url:description: VC Redistributable download URL
 teams_vc_redist_download_url: 'https://aka.ms/vs/17/release/vc_redist.x64.exe'
+
+# @var teams_vc_redist_product_id:description: VC Redistributable product ID
 teams_vc_redist_product_id: '{A181A302-3F6D-4BAD-97A8-A426A6499D78}'
+
+# @var teams_web_rtc_download_url:description: Web RTC download URL
 teams_web_rtc_download_url: 'https://query.prod.cms.rt.microsoft.com/cms/api/am/binary/RWQ1UW'
+# @var teams_x64_download_url:description: Teams 64-bit download URL
 teams_x64_download_url: 'https://teams.microsoft.com/downloads/desktopurl?env=production&plat=windows&arch=x64&managedInstaller=true&download=true'
+
+# @var teams_x86_download_url:description: Teams 32-bit download URL
 teams_x86_download_url: 'https://teams.microsoft.com/downloads/desktopurl?env=production&plat=windows&managedInstaller=true&download=true'
+
+# @var teams_is_wvd_environment:description: Set to true if installed in Azure Virtual Desktop environment
 teams_is_wvd_environment: false
+
+# @var teams_per_machine_install:description: Set to true if installed as machine-wide installation
 teams_per_machine_install: false
+
+# @var teams_no_autostart:description: Set to true if Teams should not autostart at logon
 teams_no_autostart: false
+
+# @var teams_is_32bit:description: Set to true to install 32-bit version of Teams
 teams_is_32bit: false
+
+# @var teams_remove_hklm_autorun:description: Set to true to remove autorun setting in HKLM
 teams_remove_hklm_autorun: false
+
+# @var teams_installer_run_uninstall_first:description: Set to true to uninstall Teams first. This cause the machine-wide installer to truly update.
+teams_installer_run_uninstall_first: false
+
+# @var teams_installer_arguments:description: Teams installer arguments
 teams_installer_arguments: "{{ teams_per_machine_install | bool | ternary('ALLUSER=1 ALLUSERS=1', 'ALLUSERS=1') }}"
+
+# @var teams_installer_arguments_autostart:description: Teams installer arguments regarding autostart
 teams_installer_arguments_autostart: "{{ teams_no_autostart | bool | ternary('OPTIONS=\"noAutoStart=true\"','') }}"
+
+# @var teams_register_addinloader:description: Set to true to register Teams addin loader machine-wide
 teams_register_addinloader: false
+...

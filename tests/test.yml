@@ -1,5 +1,12 @@
 ---
-- hosts: localhost
-  remote_user: root
+- hosts: windows
+  vars:
+    teams_is_wvd_environment: true
+    teams_per_machine_install: true
+    teams_no_autostart: true
+    teams_remove_hklm_autorun: true
+    teams_register_addinloader: true
+
   roles:
     - ansible-role-win-teams
+...
